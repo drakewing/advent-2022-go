@@ -11,31 +11,27 @@ type backpack struct {
 }
 
 func d01p1() int {
+	top1 := findTopN(1)
+	return sumIntSlice(top1)
+}
+
+func d01p2() int {
+	top3 := findTopN(3)
+	return sumIntSlice(top3)
+}
+
+func findTopN(n int) []int {
 	backpacks := buildBackpacks()
-	maxCals := -1
+	maxCals := make([]int, n)
 
 	for _, bp := range backpacks {
 		calories := sumIntSlice(bp.food)
-		if calories > maxCals {
-			maxCals = calories
+		if calories > maxCals[len(maxCals)-1] {
+			insertIntoFixedSortedSlice(calories, maxCals)
 		}
 	}
 
 	return maxCals
-}
-
-func d01p2() int {
-	backpacks := buildBackpacks()
-	maxCals := [3]int{-1, -1, -1}
-
-	for _, bp := range backpacks {
-		calories := sumIntSlice(bp.food)
-		if calories > maxCals[2] {
-			insertIntoFixedSortedSlice(calories, maxCals[:])
-		}
-	}
-
-	return sumIntSlice(maxCals[:])
 }
 
 func buildBackpacks() []backpack {
