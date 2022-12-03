@@ -24,6 +24,11 @@ const (
 	Draw
 )
 
+type RpsGame struct {
+	p1Move RpsMove
+	p2Move RpsMove
+}
+
 func d02p1() int {
 	games := buildGames(true)
 	return scoreGames(games)
@@ -57,7 +62,7 @@ func scoreGame(r RpsGame) int {
 		score += 3
 	}
 
-	switch r.determineWinner() {
+	switch winnerMap[r.p1Move][r.p2Move] {
 	case Player2:
 		score += 6
 	case Draw:
@@ -81,7 +86,7 @@ func buildGames(isPart1 bool) []RpsGame {
 		if isPart1 {
 			myMove = strToMove(moves[1])
 		} else {
-			myMove = outcomeToMove(oppMove, moves[1])
+			myMove = outcomeMap[oppMove][moves[1]]
 		}
 		game := RpsGame{oppMove, myMove}
 		games = append(games, game)
@@ -90,76 +95,42 @@ func buildGames(isPart1 bool) []RpsGame {
 	return games
 }
 
-type RpsGame struct {
-	p1Move RpsMove
-	p2Move RpsMove
+// maps p1 move -> p2 moves -> winner
+var winnerMap = map[RpsMove]map[RpsMove]RpsResult{
+	Rock: {
+		Rock:     Draw,
+		Paper:    Player2,
+		Scissors: Player1,
+	},
+	Paper: {
+		Rock:     Player1,
+		Paper:    Draw,
+		Scissors: Player2,
+	},
+	Scissors: {
+		Rock:     Player2,
+		Paper:    Player1,
+		Scissors: Draw,
+	},
 }
 
-func (r RpsGame) determineWinner() RpsResult {
-	switch r.p1Move {
-	case Rock:
-		switch r.p2Move {
-		case Rock:
-			return Draw
-		case Paper:
-			return Player2
-		default:
-			return Player1
-		}
-	case Paper:
-		switch r.p2Move {
-		case Rock:
-			return Player1
-		case Paper:
-			return Draw
-		default:
-			return Player2
-		}
-	default:
-		switch r.p2Move {
-		case Rock:
-			return Player2
-		case Paper:
-			return Player1
-		default:
-			return Draw
-		}
-	}
-}
-
-func outcomeToMove(oppMove RpsMove, s string) RpsMove {
-	switch s {
-	// lose
-	case "X":
-		switch oppMove {
-		case Rock:
-			return Scissors
-		case Paper:
-			return Rock
-		default:
-			return Paper
-		}
-	// draw
-	case "Y":
-		switch oppMove {
-		case Rock:
-			return Rock
-		case Paper:
-			return Paper
-		default:
-			return Scissors
-		}
-	//win
-	default:
-		switch oppMove {
-		case Rock:
-			return Paper
-		case Paper:
-			return Scissors
-		default:
-			return Rock
-		}
-	}
+// maps p1 move -> desired outcome -> required action
+var outcomeMap = map[RpsMove]map[string]RpsMove{
+	Rock: {
+		"X": Scissors,
+		"Y": Rock,
+		"Z": Paper,
+	},
+	Paper: {
+		"X": Rock,
+		"Y": Paper,
+		"Z": Scissors,
+	},
+	Scissors: {
+		"X": Paper,
+		"Y": Scissors,
+		"Z": Rock,
+	},
 }
 
 // assumes valid input
