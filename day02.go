@@ -25,16 +25,16 @@ const (
 )
 
 func d02p1() int {
-	games := buildGames1()
-	return tallyGame(games)
+	games := buildGames(true)
+	return scoreGames(games)
 }
 
 func d02p2() int {
-	games := buildGames2()
-	return tallyGame(games)
+	games := buildGames(false)
+	return scoreGames(games)
 }
 
-func tallyGame(games []RpsGame) int {
+func scoreGames(games []RpsGame) int {
 	score := 0
 
 	for _, game := range games {
@@ -67,22 +67,7 @@ func scoreGame(r RpsGame) int {
 	return score
 }
 
-func buildGames1() []RpsGame {
-	var games []RpsGame
-
-	f, _ := os.Open(inputFile)
-	s := bufio.NewScanner(f)
-
-	for s.Scan() {
-		moves := strings.Split(s.Text(), " ")
-		game := RpsGame{strToMove(moves[0]), strToMove(moves[1])}
-		games = append(games, game)
-	}
-
-	return games
-}
-
-func buildGames2() []RpsGame {
+func buildGames(isPart1 bool) []RpsGame {
 	var games []RpsGame
 
 	f, _ := os.Open(inputFile)
@@ -91,8 +76,15 @@ func buildGames2() []RpsGame {
 	for s.Scan() {
 		moves := strings.Split(s.Text(), " ")
 		oppMove := strToMove(moves[0])
-		myMove := outcomeToMove(oppMove, moves[1])
-		games = append(games, RpsGame{oppMove, myMove})
+
+		var myMove RpsMove
+		if isPart1 {
+			myMove = strToMove(moves[1])
+		} else {
+			myMove = outcomeToMove(oppMove, moves[1])
+		}
+		game := RpsGame{oppMove, myMove}
+		games = append(games, game)
 	}
 
 	return games
