@@ -25,8 +25,17 @@ const (
 )
 
 func d02p1() int {
+	games := buildGames1()
+	return tallyGame(games)
+}
+
+func d02p2() int {
+	games := buildGames2()
+	return tallyGame(games)
+}
+
+func tallyGame(games []RpsGame) int {
 	score := 0
-	games := buildGames()
 
 	for _, game := range games {
 		score += scoreGame(game)
@@ -58,7 +67,7 @@ func scoreGame(r RpsGame) int {
 	return score
 }
 
-func buildGames() []RpsGame {
+func buildGames1() []RpsGame {
 	var games []RpsGame
 
 	f, _ := os.Open(inputFile)
@@ -68,6 +77,22 @@ func buildGames() []RpsGame {
 		moves := strings.Split(s.Text(), " ")
 		game := RpsGame{strToMove(moves[0]), strToMove(moves[1])}
 		games = append(games, game)
+	}
+
+	return games
+}
+
+func buildGames2() []RpsGame {
+	var games []RpsGame
+
+	f, _ := os.Open(inputFile)
+	s := bufio.NewScanner(f)
+
+	for s.Scan() {
+		moves := strings.Split(s.Text(), " ")
+		oppMove := strToMove(moves[0])
+		myMove := outcomeToMove(oppMove, moves[1])
+		games = append(games, RpsGame{oppMove, myMove})
 	}
 
 	return games
@@ -106,6 +131,41 @@ func (r RpsGame) determineWinner() RpsResult {
 			return Player1
 		default:
 			return Draw
+		}
+	}
+}
+
+func outcomeToMove(oppMove RpsMove, s string) RpsMove {
+	switch s {
+	// lose
+	case "X":
+		switch oppMove {
+		case Rock:
+			return Scissors
+		case Paper:
+			return Rock
+		default:
+			return Paper
+		}
+	// draw
+	case "Y":
+		switch oppMove {
+		case Rock:
+			return Rock
+		case Paper:
+			return Paper
+		default:
+			return Scissors
+		}
+	//win
+	default:
+		switch oppMove {
+		case Rock:
+			return Paper
+		case Paper:
+			return Scissors
+		default:
+			return Rock
 		}
 	}
 }
