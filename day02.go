@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strings"
 )
@@ -30,7 +29,6 @@ func d02p1() int {
 	games := buildGames()
 
 	for _, game := range games {
-		fmt.Println(scoreGame(game))
 		score += scoreGame(game)
 	}
 
