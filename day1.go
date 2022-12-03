@@ -27,7 +27,7 @@ func findTopN(n int) []int {
 	for _, bp := range backpacks {
 		calories := sumIntSlice(bp.food)
 		if calories > maxCals[len(maxCals)-1] {
-			insertIntoFixedSortedSlice(calories, maxCals)
+			insertIfLarger(calories, maxCals)
 		}
 	}
 
@@ -54,4 +54,16 @@ func buildBackpacks() []backpack {
 	}
 
 	return backpacks
+}
+
+// slice is unchanged when val is smaller than all elements
+func insertIfLarger(newVal int, slice []int) {
+	for i, curVal := range slice {
+		if curVal >= newVal {
+			continue
+		}
+
+		slice[i] = newVal
+		newVal = curVal
+	}
 }

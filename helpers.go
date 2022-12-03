@@ -9,15 +9,3 @@ func sumIntSlice(l []int) int {
 
 	return total
 }
-
-// slice is unchanged when val is smaller than all elements
-func insertIntoFixedSortedSlice(newVal int, slice []int) {
-	for i, curVal := range slice {
-		if curVal >= newVal {
-			continue
-		}
-
-		slice[i] = newVal
-		newVal = curVal
-	}
-}
