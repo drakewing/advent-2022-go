@@ -5,6 +5,11 @@ import (
 	"os"
 )
 
+type Interval struct {
+	lower int
+	upper int
+}
+
 func sumIntSlice(l []int) int {
 	total := 0
 
