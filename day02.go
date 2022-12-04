@@ -1,12 +1,8 @@
 package main
 
 import (
-	"bufio"
-	"os"
 	"strings"
 )
-
-const inputFile = "input/day02.txt"
 
 type RpsMove int
 
@@ -29,13 +25,13 @@ type RpsGame struct {
 	p2Move RpsMove
 }
 
-func d02p1() int {
-	games := buildGames(true)
+func d02p1(input []string) int {
+	games := buildGames(input, true)
 	return scoreGames(games)
 }
 
-func d02p2() int {
-	games := buildGames(false)
+func d02p2(input []string) int {
+	games := buildGames(input, false)
 	return scoreGames(games)
 }
 
@@ -72,15 +68,11 @@ func scoreGame(r RpsGame) int {
 	return score
 }
 
-func buildGames(isPart1 bool) []RpsGame {
+func buildGames(input []string, isPart1 bool) []RpsGame {
 	var games []RpsGame
 
-	f, _ := os.Open(inputFile)
-	defer f.Close()
-	s := bufio.NewScanner(f)
-
-	for s.Scan() {
-		moves := strings.Split(s.Text(), " ")
+	for _, line := range input {
+		moves := strings.Split(line, " ")
 		oppMove := strToMove(moves[0])
 
 		var myMove RpsMove
