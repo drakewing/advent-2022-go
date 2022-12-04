@@ -9,6 +9,8 @@ func TestAnswers(t *testing.T) {
 	assertInts(t, d02p2(readLines("input/day02.txt")), 14060)
 	assertInts(t, d03p1(readLines("input/day03.txt")), 7863)
 	assertInts(t, d03p2(readLines("input/day03.txt")), 2488)
+	assertInts(t, d04p1(readLines("input/day04.txt")), 507)
+	assertInts(t, d04p2(readLines("input/day04.txt")), 897)
 }
 
 func assertInts(t testing.TB, got, want int) {

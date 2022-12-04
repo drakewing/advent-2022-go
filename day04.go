@@ -10,30 +10,34 @@ type Pair struct {
 	right Interval
 }
 
+type d4cond func(Pair) bool
+
 func d04p1(input []string) int {
 	pairs := convLinesToPairs(input)
-
-	contained := 0
-	for _, pair := range pairs {
-		if aContainsB(pair.left, pair.right) || aContainsB(pair.right, pair.left) {
-			contained++
-		}
-	}
-
-	return contained
+	return d4soln(pairs, p1Condition)
 }
 
 func d04p2(input []string) int {
 	pairs := convLinesToPairs(input)
+	return d4soln(pairs, p2Condition)
+}
 
-	overlaps := 0
+func d4soln(pairs []Pair, cond d4cond) int {
+	acc := 0
 	for _, pair := range pairs {
-		if hasOverlap(pair.left, pair.right) {
-			overlaps++
+		if cond(pair) {
+			acc++
 		}
 	}
+	return acc
+}
 
-	return overlaps
+func p1Condition(pair Pair) bool {
+	return aContainsB(pair.left, pair.right) || aContainsB(pair.right, pair.left)
+}
+
+func p2Condition(pair Pair) bool {
+	return hasOverlap(pair.left, pair.right)
 }
 
 func hasOverlap(a, b Interval) bool {
