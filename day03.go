@@ -8,8 +8,8 @@ type compartment map[byte]bool
 func d03p1(input []string) int {
 	rucksacks := buildRucks(input)
 	intersections := findCompartmentIntersections(rucksacks)
-	sumPriorities := 0
 
+	sumPriorities := 0
 	for _, intersection := range intersections {
 		for _, b := range intersection {
 			sumPriorities += itemToPriority(b)
