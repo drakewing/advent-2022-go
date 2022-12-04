@@ -19,6 +19,24 @@ func d03p1(input []string) int {
 	return sumPriorities
 }
 
+func d03p2(input []string) int {
+	badges := make([]byte, 0)
+
+	for i := 0; i < len(input); i = i + 3 {
+		c1 := buildCompartment(input[i])
+		c2 := buildCompartment(input[i+1])
+		c3 := buildCompartment(input[i+2])
+		badges = append(badges, findBadge(c1, c2, c3))
+	}
+
+	sumPriorities := 0
+	for _, badge := range badges {
+		sumPriorities += itemToPriority(badge)
+	}
+
+	return sumPriorities
+}
+
 func findCompartmentIntersections(rucks []rucksack) [][]byte {
 	output := make([][]byte, 0)
 
@@ -31,6 +49,16 @@ func findCompartmentIntersections(rucks []rucksack) [][]byte {
 	}
 
 	return output
+}
+
+func findBadge(c1, c2, c3 compartment) byte {
+	for b := range c1 {
+		if c2[b] && c3[b] {
+			return b
+		}
+	}
+
+	panic("no badge in this group")
 }
 
 func buildRucks(input []string) []rucksack {
