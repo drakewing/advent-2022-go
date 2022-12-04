@@ -26,7 +26,8 @@ func d03p2(input []string) int {
 		c1 := buildCompartment(input[i])
 		c2 := buildCompartment(input[i+1])
 		c3 := buildCompartment(input[i+2])
-		badges = append(badges, findBadge(c1, c2, c3))
+		badgeMap := intersectByteSets(c1, c2, c3)
+		badges = append(badges, getSliceFromKeys(badgeMap)...)
 	}
 
 	sumPriorities := 0
@@ -40,25 +41,13 @@ func d03p2(input []string) int {
 func findCompartmentIntersections(rucks []rucksack) [][]byte {
 	output := make([][]byte, 0)
 
-	for i, ruck := range rucks {
-		output = append(output, make([]byte, 0))
-		intersection := intersectByte(ruck.compartments[0], ruck.compartments[1])
-		for k := range intersection {
-			output[i] = append(output[i], k)
-		}
+	for _, ruck := range rucks {
+		intersectionMap := intersectByteSets(ruck.compartments[0], ruck.compartments[1])
+		intersection := getSliceFromKeys(intersectionMap)
+		output = append(output, intersection)
 	}
 
 	return output
-}
-
-func findBadge(c1, c2, c3 compartment) byte {
-	for b := range c1 {
-		if c2[b] && c3[b] {
-			return b
-		}
-	}
-
-	panic("no badge in this group")
 }
 
 func buildRucks(input []string) []rucksack {
