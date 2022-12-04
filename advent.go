@@ -10,5 +10,5 @@ func main() {
 	fmt.Printf("day 3, problem 1: %d\n", d03p1(readLines("input/day03.txt")))
 	fmt.Printf("day 3, problem 2: %d\n", d03p2(readLines("input/day03.txt")))
 	fmt.Printf("day 4, problem 1: %d\n", d04p1(readLines("input/day04.txt")))
-	// fmt.Printf("day 4, problem 2: %d\n", d03p2(readLines("input/day04.txt")))
+	fmt.Printf("day 4, problem 2: %d\n", d04p2(readLines("input/day04.txt")))
 }

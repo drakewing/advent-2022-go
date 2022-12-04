@@ -10,6 +10,10 @@ type Interval struct {
 	upper int
 }
 
+func isNumInInterval(num int, interval Interval) bool {
+	return num >= interval.lower && num <= interval.upper
+}
+
 func sumIntSlice(l []int) int {
 	total := 0
 

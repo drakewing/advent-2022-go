@@ -23,6 +23,26 @@ func d04p1(input []string) int {
 	return contained
 }
 
+func d04p2(input []string) int {
+	pairs := convLinesToPairs(input)
+
+	overlaps := 0
+	for _, pair := range pairs {
+		if hasOverlap(pair.left, pair.right) {
+			overlaps++
+		}
+	}
+
+	return overlaps
+}
+
+func hasOverlap(a, b Interval) bool {
+	return isNumInInterval(a.lower, b) ||
+		isNumInInterval(a.upper, b) ||
+		isNumInInterval(b.lower, a) ||
+		isNumInInterval(b.upper, a)
+}
+
 func aContainsB(a, b Interval) bool {
 	return a.lower <= b.lower && a.upper >= b.upper
 }
