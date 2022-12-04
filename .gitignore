@@ -1,0 +1,6 @@
+.DS_Store
+.idea
+*.log
+tmp/
+
+advent-2022-go

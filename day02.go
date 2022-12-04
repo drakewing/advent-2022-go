@@ -76,6 +76,7 @@ func buildGames(isPart1 bool) []RpsGame {
 	var games []RpsGame
 
 	f, _ := os.Open(inputFile)
+	defer f.Close()
 	s := bufio.NewScanner(f)
 
 	for s.Scan() {
