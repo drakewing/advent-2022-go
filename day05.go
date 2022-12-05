@@ -14,20 +14,32 @@ type move struct {
 }
 
 func d05p1(input []string) string {
-	indexRow := findIndexRow(input)
-	stacks := buildStacks(input[:indexRow+1])
-	moves := buildMoves(input[indexRow+2:])
-	rearrange(stacks, moves)
+	stacks, moves := buildStacksAndMoves(input)
+	rearrange9000(stacks, moves)
 	return getTopCrates(stacks)
 }
 
-func rearrange(stacks []stack, moves []move) {
+func d05p2(input []string) string {
+	stacks, moves := buildStacksAndMoves(input)
+	rearrange9001(stacks, moves)
+	return getTopCrates(stacks)
+}
+
+func rearrange9000(stacks []stack, moves []move) {
 	for _, m := range moves {
 		for i := 0; i < m.ct; i++ {
 			lastPos := len(stacks[m.src]) - 1
 			stacks[m.dest] = append(stacks[m.dest], stacks[m.src][lastPos])
 			stacks[m.src] = stacks[m.src][:lastPos]
 		}
+	}
+}
+
+func rearrange9001(stacks []stack, moves []move) {
+	for _, m := range moves {
+		i := len(stacks[m.src]) - m.ct
+		stacks[m.dest] = append(stacks[m.dest], stacks[m.src][i:]...)
+		stacks[m.src] = stacks[m.src][:i]
 	}
 }
 
@@ -39,6 +51,13 @@ func getTopCrates(stacks []stack) string {
 	}
 
 	return s.String()
+}
+
+func buildStacksAndMoves(input []string) ([]stack, []move) {
+	indexRow := findIndexRow(input)
+	stacks := buildStacks(input[:indexRow+1])
+	moves := buildMoves(input[indexRow+2:])
+	return stacks, moves
 }
 
 func buildMoves(input []string) []move {
