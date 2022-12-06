@@ -1,11 +1,13 @@
-package main
+package d03
+
+import "github.com/drakewing/advent-2022-go/helpers"
 
 type rucksack struct {
 	compartments []compartment
 }
 type compartment map[byte]bool
 
-func d03p1(input []string) int {
+func P1(input []string) int {
 	rucksacks := buildRucks(input)
 	intersections := findCompartmentIntersections(rucksacks)
 
@@ -19,15 +21,15 @@ func d03p1(input []string) int {
 	return sumPriorities
 }
 
-func d03p2(input []string) int {
+func P2(input []string) int {
 	badges := make([]byte, 0)
 
 	for i := 0; i < len(input); i = i + 3 {
 		c1 := buildCompartment(input[i])
 		c2 := buildCompartment(input[i+1])
 		c3 := buildCompartment(input[i+2])
-		badgeMap := intersectByteSets(c1, c2, c3)
-		badges = append(badges, getSliceFromKeys(badgeMap)...)
+		badgeMap := helpers.IntersectByteSets(c1, c2, c3)
+		badges = append(badges, helpers.GetSliceFromKeys(badgeMap)...)
 	}
 
 	sumPriorities := 0
@@ -42,8 +44,8 @@ func findCompartmentIntersections(rucks []rucksack) [][]byte {
 	output := make([][]byte, 0)
 
 	for _, ruck := range rucks {
-		intersectionMap := intersectByteSets(ruck.compartments[0], ruck.compartments[1])
-		intersection := getSliceFromKeys(intersectionMap)
+		intersectionMap := helpers.IntersectByteSets(ruck.compartments[0], ruck.compartments[1])
+		intersection := helpers.GetSliceFromKeys(intersectionMap)
 		output = append(output, intersection)
 	}
 

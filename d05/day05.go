@@ -1,4 +1,4 @@
-package main
+package d05
 
 import (
 	"strconv"
@@ -13,13 +13,13 @@ type move struct {
 	dest int
 }
 
-func d05p1(input []string) string {
+func P1(input []string) string {
 	stacks, moves := buildStacksAndMoves(input)
 	rearrange9000(stacks, moves)
 	return getTopCrates(stacks)
 }
 
-func d05p2(input []string) string {
+func P2(input []string) string {
 	stacks, moves := buildStacksAndMoves(input)
 	rearrange9001(stacks, moves)
 	return getTopCrates(stacks)

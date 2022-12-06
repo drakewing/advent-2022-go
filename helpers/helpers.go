@@ -1,4 +1,4 @@
-package main
+package helpers
 
 import (
 	"bufio"
@@ -6,15 +6,15 @@ import (
 )
 
 type Interval struct {
-	lower int
-	upper int
+	Lower int
+	Upper int
 }
 
-func isNumInInterval(num int, interval Interval) bool {
-	return num >= interval.lower && num <= interval.upper
+func IsNumInInterval(num int, interval Interval) bool {
+	return num >= interval.Lower && num <= interval.Upper
 }
 
-func sumIntSlice(l []int) int {
+func SumIntSlice(l []int) int {
 	total := 0
 
 	for _, val := range l {
@@ -24,7 +24,7 @@ func sumIntSlice(l []int) int {
 	return total
 }
 
-func readLines(path string) []string {
+func ReadLines(path string) []string {
 	var output []string
 
 	f, _ := os.Open(path)
@@ -39,7 +39,7 @@ func readLines(path string) []string {
 	return output
 }
 
-func intersectByteSets(a map[byte]bool, rest ...map[byte]bool) map[byte]bool {
+func IntersectByteSets(a map[byte]bool, rest ...map[byte]bool) map[byte]bool {
 	intersection := make(map[byte]bool)
 
 	for k := range a {
@@ -58,7 +58,7 @@ func intersectByteSets(a map[byte]bool, rest ...map[byte]bool) map[byte]bool {
 	return intersection
 }
 
-func getSliceFromKeys(m map[byte]bool) []byte {
+func GetSliceFromKeys(m map[byte]bool) []byte {
 	output := make([]byte, 0)
 
 	for k := range m {

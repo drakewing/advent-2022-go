@@ -1,41 +1,41 @@
-package main
+package d02
 
 import (
 	"strings"
 )
 
-type RpsMove int
+type rpsMove int
 
 const (
-	Rock RpsMove = iota
+	Rock rpsMove = iota
 	Paper
 	Scissors
 )
 
-type RpsResult int
+type rpsResult int
 
 const (
-	Player1 RpsResult = iota
+	Player1 rpsResult = iota
 	Player2
 	Draw
 )
 
-type RpsGame struct {
-	p1Move RpsMove
-	p2Move RpsMove
+type rpsGame struct {
+	p1Move rpsMove
+	p2Move rpsMove
 }
 
-func d02p1(input []string) int {
+func P1(input []string) int {
 	games := buildGames(input, true)
 	return scoreGames(games)
 }
 
-func d02p2(input []string) int {
+func P2(input []string) int {
 	games := buildGames(input, false)
 	return scoreGames(games)
 }
 
-func scoreGames(games []RpsGame) int {
+func scoreGames(games []rpsGame) int {
 	score := 0
 
 	for _, game := range games {
@@ -46,7 +46,7 @@ func scoreGames(games []RpsGame) int {
 }
 
 // scores a game from my perspective
-func scoreGame(r RpsGame) int {
+func scoreGame(r rpsGame) int {
 	score := 0
 
 	switch r.p2Move {
@@ -68,20 +68,20 @@ func scoreGame(r RpsGame) int {
 	return score
 }
 
-func buildGames(input []string, isPart1 bool) []RpsGame {
-	var games []RpsGame
+func buildGames(input []string, isPart1 bool) []rpsGame {
+	var games []rpsGame
 
 	for _, line := range input {
 		moves := strings.Split(line, " ")
 		oppMove := strToMove(moves[0])
 
-		var myMove RpsMove
+		var myMove rpsMove
 		if isPart1 {
 			myMove = strToMove(moves[1])
 		} else {
 			myMove = outcomeMap[oppMove][moves[1]]
 		}
-		game := RpsGame{oppMove, myMove}
+		game := rpsGame{oppMove, myMove}
 		games = append(games, game)
 	}
 
@@ -89,7 +89,7 @@ func buildGames(input []string, isPart1 bool) []RpsGame {
 }
 
 // maps p1 move -> p2 moves -> winner
-var winnerMap = map[RpsMove]map[RpsMove]RpsResult{
+var winnerMap = map[rpsMove]map[rpsMove]rpsResult{
 	Rock: {
 		Rock:     Draw,
 		Paper:    Player2,
@@ -108,7 +108,7 @@ var winnerMap = map[RpsMove]map[RpsMove]RpsResult{
 }
 
 // maps p1 move -> desired outcome -> required action
-var outcomeMap = map[RpsMove]map[string]RpsMove{
+var outcomeMap = map[rpsMove]map[string]rpsMove{
 	Rock: {
 		"X": Scissors,
 		"Y": Rock,
@@ -127,7 +127,7 @@ var outcomeMap = map[RpsMove]map[string]RpsMove{
 }
 
 // assumes valid input
-func strToMove(s string) RpsMove {
+func strToMove(s string) rpsMove {
 	switch s {
 	case "A", "X":
 		return Rock

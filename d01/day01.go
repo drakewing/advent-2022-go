@@ -1,30 +1,32 @@
-package main
+package d01
 
 import (
 	"strconv"
+
+	"github.com/drakewing/advent-2022-go/helpers"
 )
 
 type backpack struct {
 	food []int
 }
 
-func d01p1(input []string) int {
+func P1(input []string) int {
 	backpacks := buildBackpacks(input)
 	top1 := findTopN(1, backpacks)
-	return sumIntSlice(top1)
+	return helpers.SumIntSlice(top1)
 }
 
-func d01p2(input []string) int {
+func P2(input []string) int {
 	backpacks := buildBackpacks(input)
 	top3 := findTopN(3, backpacks)
-	return sumIntSlice(top3)
+	return helpers.SumIntSlice(top3)
 }
 
 func findTopN(n int, backpacks []backpack) []int {
 	maxCals := make([]int, n)
 
 	for _, bp := range backpacks {
-		calories := sumIntSlice(bp.food)
+		calories := helpers.SumIntSlice(bp.food)
 		if calories > maxCals[len(maxCals)-1] {
 			insertIfLarger(calories, maxCals)
 		}
