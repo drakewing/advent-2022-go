@@ -12,9 +12,9 @@ type direction byte
 
 const (
 	up    direction = 'U'
-	right           = 'R'
-	down            = 'D'
-	left            = 'L'
+	right direction = 'R'
+	down  direction = 'D'
+	left  direction = 'L'
 )
 
 var charToDir = map[byte]direction{
@@ -28,7 +28,7 @@ type square byte
 
 const (
 	visited  square = '#'
-	unvisted        = '.'
+	unvisted square = '.'
 )
 
 type motion struct {
@@ -46,19 +46,26 @@ type vector struct {
 	y int
 }
 
-func P1(input []string) int {
-	motions := buildMotions(input)
-
+func soln(motions []motion, ropeLen int) int {
 	row := []byte{byte(visited)}
 	grid := [][]byte{row}
 
-	head, tail := position{0, 0}, position{0, 0}
-
+	knots := make([]position, ropeLen)
 	for _, m := range motions {
-		grid, head, tail = processMotion(grid, head, tail, m)
+		grid, knots = processMotion(grid, knots, m)
 	}
 
 	return calcScores(grid)
+}
+
+func P1(input []string) int {
+	motions := buildMotions(input)
+	return soln(motions, 2)
+}
+
+func P2(input []string) int {
+	motions := buildMotions(input)
+	return soln(motions, 10)
 }
 
 func calcScores(grid visitedGrid) int {
@@ -73,19 +80,26 @@ func calcScores(grid visitedGrid) int {
 	return score
 }
 
-// returns (grid, head, tail)
-func processMotion(grid visitedGrid, head, tail position, move motion) (visitedGrid, position, position) {
-	grid, shift := expandIfNecessary(grid, head, move) // may need to shift head
-	head = position{head.x + shift.x, head.y + shift.y}
-	tail = position{tail.x + shift.x, tail.y + shift.y}
+func processMotion(grid visitedGrid, knots []position, move motion) (visitedGrid, []position) {
+	grid, shift := expandIfNecessary(grid, knots[0], move) // may need to shift head
+	newKnots := make([]position, len(knots))
 
-	for steps := move.mag; steps > 0; steps-- {
-		head = moveHead(head, move)
-		tail = moveTail(head, tail)
-		grid[tail.y][tail.x] = '#'
+	for i, knot := range knots {
+		newKnots[i] = position{knot.x + shift.x, knot.y + shift.y}
 	}
 
-	return grid, head, tail
+	for steps := move.mag; steps > 0; steps-- {
+		newKnots[0] = moveHead(newKnots[0], move)
+
+		for i := 1; i < len(newKnots); i++ {
+			newKnots[i] = moveTail(newKnots[i-1], newKnots[i])
+		}
+
+		tail := newKnots[len(newKnots)-1]
+		grid[tail.y][tail.x] = byte(visited)
+	}
+
+	return grid, newKnots
 }
 
 func moveTail(head, tail position) position {
@@ -229,7 +243,7 @@ func expandGridVertical(grid visitedGrid, south bool) (visitedGrid, int) {
 	for i := 0; i < len(grid); i++ {
 		row := make([]byte, len(grid[0]))
 		for j := range row {
-			row[j] = unvisted
+			row[j] = byte(unvisted)
 		}
 
 		newRows = append(newRows, row)
@@ -248,7 +262,7 @@ func expandGridHorizontal(grid visitedGrid, east bool) (visitedGrid, int) {
 	for i := range grid {
 		newCol := make([]byte, len(grid[i]))
 		for j := range newCol {
-			newCol[j] = unvisted
+			newCol[j] = byte(unvisted)
 		}
 
 		if east {
