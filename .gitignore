@@ -2,5 +2,6 @@
 .idea
 *.log
 tmp/
+.vscode
 
 advent-2022-go

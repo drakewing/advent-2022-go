@@ -9,6 +9,7 @@ import (
 	"github.com/drakewing/advent-2022-go/d04"
 	"github.com/drakewing/advent-2022-go/d05"
 	"github.com/drakewing/advent-2022-go/d06"
+	"github.com/drakewing/advent-2022-go/d09"
 	"github.com/drakewing/advent-2022-go/helpers"
 )
 
@@ -25,6 +26,9 @@ func TestAnswers(t *testing.T) {
 	assertStrings(t, d05.P2(helpers.ReadLines("input/day05.txt")), "ZFSJBPRFP")
 	assertInts(t, d06.P1(helpers.ReadLines("input/day06.txt")[0]), 1275)
 	assertInts(t, d06.P2(helpers.ReadLines("input/day06.txt")[0]), 3605)
+	// assertInts(t, d07.P1(helpers.ReadLines("input/day07.txt")), 1118405)
+	// assertInts(t, d07.P2(helpers.ReadLines("input/day07.txt")), 12545514)
+	assertInts(t, d09.P1(helpers.ReadLines("input/day09.txt")), 5695)
 }
 
 func assertInts(t testing.TB, got, want int) {
