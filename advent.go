@@ -9,6 +9,7 @@ import (
 	"github.com/drakewing/advent-2022-go/d04"
 	"github.com/drakewing/advent-2022-go/d05"
 	"github.com/drakewing/advent-2022-go/d06"
+	"github.com/drakewing/advent-2022-go/d07"
 	"github.com/drakewing/advent-2022-go/d09"
 	"github.com/drakewing/advent-2022-go/d10"
 	"github.com/drakewing/advent-2022-go/helpers"
@@ -27,11 +28,15 @@ func main() {
 	fmt.Printf("day 05, problem 2: %s\n", d05.P2(helpers.ReadLines("input/day05.txt")))
 	fmt.Printf("day 06, problem 1: %d\n", d06.P1(helpers.ReadLines("input/day06.txt")[0]))
 	fmt.Printf("day 06, problem 2: %d\n", d06.P2(helpers.ReadLines("input/day06.txt")[0]))
-	// fmt.Printf("day 07, problem 1: %d\n", d07.P1(helpers.ReadLines("input/day07.txt")))
+	fmt.Printf("day 07, problem 1: %d\n", d07.P1(helpers.ReadLines("input/day07.txt")))
 	// fmt.Printf("day 07, problem 2: %d\n", d07.P2(helpers.ReadLines("input/day07.txt")))
 	fmt.Printf("day 09, problem 1: %d\n", d09.P1(helpers.ReadLines("input/day09.txt")))
 	fmt.Printf("day 09, problem 2: %d\n", d09.P2(helpers.ReadLines("input/day09.txt")))
 	fmt.Printf("day 10, problem 1: %d\n", d10.P1(helpers.ReadLines("input/day10.txt")))
 	fmt.Printf("day 10, problem 2:\n")
 	d10.P2(helpers.ReadLines("input/day10.txt"))
+	// fmt.Printf("day 11, problem 1: %d\n", d11.P1(helpers.ReadLines("input/day11.txt")))
+	// fmt.Printf("day 11, problem 2: %d\n", d11.P2(helpers.ReadLines("input/day11.txt")))
+	// fmt.Printf("day 12, problem 1: %d\n", d12.P1(helpers.ReadLines("input/day12.txt")))
+	// fmt.Printf("day 12, problem 2: %d\n", d12.P2(helpers.ReadLines("input/day12.txt")))
 }
