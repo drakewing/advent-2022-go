@@ -1,6 +1,7 @@
 package d07
 
 import (
+	"sort"
 	"strconv"
 	"strings"
 )
@@ -36,6 +37,28 @@ func (n *node) addChildNode(parts []string) {
 	}
 }
 
+func (n *node) getDirSizes() []int {
+	size, subdirSizes := n.getSizes()
+	return append(subdirSizes, size)
+}
+
+func (n *node) getSizes() (size int, subdirSizes []int) {
+	subdirSizes = make([]int, 0)
+
+	for _, child := range n.children {
+		if child.kind == file {
+			size += child.size
+		} else {
+			dirSize, subSubdirSizes := child.getSizes()
+			subdirSizes = append(subdirSizes, subSubdirSizes...)
+			subdirSizes = append(subdirSizes, dirSize)
+			size += dirSize
+		}
+	}
+
+	return size, subdirSizes
+}
+
 func cd(wd *node, path string) *node {
 	if path == ".." {
 		return wd.parent
@@ -58,24 +81,8 @@ func cd(wd *node, path string) *node {
 	return nil
 }
 
-func getSizes(n *node) (size int, subdirSizes []int) {
-	subdirSizes = make([]int, 0)
-
-	for _, child := range n.children {
-		if child.kind == file {
-			size += child.size
-		} else {
-			dirSize, subSubdirSizes := getSizes(child)
-			subdirSizes = append(subdirSizes, subSubdirSizes...)
-			subdirSizes = append(subdirSizes, dirSize)
-			size += dirSize
-		}
-	}
-
-	return size, subdirSizes
-}
-
-func P1(input []string) int {
+// returns root of new fs
+func processTtyOutput(input []string) *node {
 	wd := &node{dir, "/", 0, nil, make([]*node, 0)}
 
 	for _, input := range input {
@@ -91,9 +98,12 @@ func P1(input []string) int {
 		}
 	}
 
-	wd = cd(wd, "/")
-	size, subdirSizes := getSizes(wd)
-	dirSizes := append(subdirSizes, size)
+	return cd(wd, "/")
+}
+
+func P1(input []string) int {
+	wd := processTtyOutput(input)
+	dirSizes := wd.getDirSizes()
 
 	totalSize := 0
 	for _, size := range dirSizes {
@@ -102,12 +112,21 @@ func P1(input []string) int {
 		}
 	}
 
-	// fmt.Printf("size: %d\n", size)
-	// fmt.Printf("subdirs: %v\n", subdirSizes)
-
 	return totalSize
 }
 
 func P2(input []string) int {
-	return 0
+	wd := processTtyOutput(input)
+	dirSizes := wd.getDirSizes()
+
+	sort.Slice(dirSizes, func(i, j int) bool { return dirSizes[i] < dirSizes[j] })
+	spaceNeeded := 30000000 - (70000000 - dirSizes[len(dirSizes)-1])
+
+	for _, size := range dirSizes {
+		if size >= spaceNeeded {
+			return size
+		}
+	}
+
+	return -1
 }

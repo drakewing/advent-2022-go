@@ -29,7 +29,7 @@ func main() {
 	fmt.Printf("day 06, problem 1: %d\n", d06.P1(helpers.ReadLines("input/day06.txt")[0]))
 	fmt.Printf("day 06, problem 2: %d\n", d06.P2(helpers.ReadLines("input/day06.txt")[0]))
 	fmt.Printf("day 07, problem 1: %d\n", d07.P1(helpers.ReadLines("input/day07.txt")))
-	// fmt.Printf("day 07, problem 2: %d\n", d07.P2(helpers.ReadLines("input/day07.txt")))
+	fmt.Printf("day 07, problem 2: %d\n", d07.P2(helpers.ReadLines("input/day07.txt")))
 	fmt.Printf("day 09, problem 1: %d\n", d09.P1(helpers.ReadLines("input/day09.txt")))
 	fmt.Printf("day 09, problem 2: %d\n", d09.P2(helpers.ReadLines("input/day09.txt")))
 	fmt.Printf("day 10, problem 1: %d\n", d10.P1(helpers.ReadLines("input/day10.txt")))

@@ -31,7 +31,7 @@ func TestAnswers(t *testing.T) {
 	assertInts(t, d06.P1(helpers.ReadLines("input/day06.txt")[0]), 1275)
 	assertInts(t, d06.P2(helpers.ReadLines("input/day06.txt")[0]), 3605)
 	assertInts(t, d07.P1(helpers.ReadLines("input/day07.txt")), 1118405)
-	// assertInts(t, d07.P2(helpers.ReadLines("input/day07.txt")), 12545514)
+	assertInts(t, d07.P2(helpers.ReadLines("input/day07.txt")), 12545514)
 	assertInts(t, d09.P1(helpers.ReadLines("input/day09.txt")), 5695)
 	assertInts(t, d09.P2(helpers.ReadLines("input/day09.txt")), 2434)
 	assertInts(t, d10.P1(helpers.ReadLines("input/day10.txt")), 14620)
