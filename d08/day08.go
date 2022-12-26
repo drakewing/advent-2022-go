@@ -2,6 +2,7 @@ package d08
 
 import (
 	"fmt"
+	"math"
 	"strconv"
 	"strings"
 )
@@ -70,6 +71,81 @@ func buildGrid(input []string) [][]int {
 	return grid
 }
 
+// assume x & y are valid
+func calcScenicScore(grid [][]int, x, y int) int {
+	score := 1 // multiplicative identity
+
+	// calculate north score
+	acc := 0
+	for i := y - 1; i >= 0; i-- {
+		acc++
+		if grid[i][x] >= grid[y][x] {
+			break
+		}
+	}
+	score *= acc
+
+	// calculate south score
+	acc = 0
+	for i := y + 1; i < len(grid); i++ {
+		acc++
+		if grid[i][x] >= grid[y][x] {
+			break
+		}
+	}
+	score *= acc
+
+	// calculate west score
+	acc = 0
+	for i := x - 1; i >= 0; i-- {
+		acc++
+		if grid[y][i] >= grid[y][x] {
+			break
+		}
+	}
+	score *= acc
+
+	// calculate east score
+	acc = 0
+	for i := x + 1; i < len(grid[y]); i++ {
+		acc++
+		if grid[y][i] >= grid[y][x] {
+			break
+		}
+	}
+	score *= acc
+
+	return score
+}
+
+func buildScenicGrid(grid [][]int) [][]int {
+	scenicGrid := make([][]int, 0)
+
+	for y := 0; y < len(grid); y++ {
+		scenicGrid = append(scenicGrid, make([]int, 0))
+
+		for x := 0; x < len(grid[y]); x++ {
+			scenicGrid[y] = append(scenicGrid[y], calcScenicScore(grid, x, y))
+		}
+	}
+
+	return scenicGrid
+}
+
+func findMaxCell(grid [][]int) int {
+	largestCell := math.MinInt
+
+	for _, row := range grid {
+		for _, cell := range row {
+			if cell > int(largestCell) {
+				largestCell = cell
+			}
+		}
+	}
+
+	return largestCell
+}
+
 func countVis(grid [][]bool) int {
 	sum := 0
 
@@ -102,5 +178,6 @@ func P1(input []string) int {
 }
 
 func P2(input []string) int {
-	return 0
+	grid := buildGrid(input)
+	return findMaxCell(buildScenicGrid(grid))
 }
