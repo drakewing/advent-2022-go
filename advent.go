@@ -13,6 +13,7 @@ import (
 	"github.com/drakewing/advent-2022-go/d08"
 	"github.com/drakewing/advent-2022-go/d09"
 	"github.com/drakewing/advent-2022-go/d10"
+	"github.com/drakewing/advent-2022-go/d11"
 	"github.com/drakewing/advent-2022-go/helpers"
 )
 
@@ -38,7 +39,7 @@ func main() {
 	fmt.Printf("day 10, problem 1: %d\n", d10.P1(helpers.ReadLines("input/day10.txt")))
 	fmt.Printf("day 10, problem 2:\n")
 	d10.P2(helpers.ReadLines("input/day10.txt"))
-	// fmt.Printf("day 11, problem 1: %d\n", d11.P1(helpers.ReadLines("input/day11.txt")))
+	fmt.Printf("day 11, problem 1: %d\n", d11.P1(helpers.ReadLines("input/day11.txt")))
 	// fmt.Printf("day 11, problem 2: %d\n", d11.P2(helpers.ReadLines("input/day11.txt")))
 	// fmt.Printf("day 12, problem 1: %d\n", d12.P1(helpers.ReadLines("input/day12.txt")))
 	// fmt.Printf("day 12, problem 2: %d\n", d12.P2(helpers.ReadLines("input/day12.txt")))

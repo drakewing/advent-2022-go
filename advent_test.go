@@ -13,6 +13,7 @@ import (
 	"github.com/drakewing/advent-2022-go/d08"
 	"github.com/drakewing/advent-2022-go/d09"
 	"github.com/drakewing/advent-2022-go/d10"
+	"github.com/drakewing/advent-2022-go/d11"
 
 	// "github.com/drakewing/advent-2022-go/d12"
 	"github.com/drakewing/advent-2022-go/helpers"
@@ -38,7 +39,7 @@ func TestAnswers(t *testing.T) {
 	assertInts(t, d09.P1(helpers.ReadLines("input/day09.txt")), 5695)
 	assertInts(t, d09.P2(helpers.ReadLines("input/day09.txt")), 2434)
 	assertInts(t, d10.P1(helpers.ReadLines("input/day10.txt")), 14620)
-	// assertInts(t, d11.P1(helpers.ReadLines("input/day11.txt")), 78678)
+	assertInts(t, d11.P1(helpers.ReadLines("input/day11.txt")), 78678)
 	// assertInts(t, d11.P2(helpers.ReadLines("input/day11.txt")), 15333249714)
 	// assertInts(t, d12.P1(helpers.ReadLines("input/day12.txt")), 408)
 	// assertInts(t, d12.P2(helpers.ReadLines("input/day12.txt")), 399)
