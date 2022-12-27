@@ -10,6 +10,7 @@ type Monkey struct {
 	items       []int
 	operation   func(old int) int
 	test        func(old int) bool
+	testDivisor int
 	trueTarget  int
 	falseTarget int
 	inspected   int
@@ -34,6 +35,7 @@ func buildMonkey(input []string) Monkey {
 	testParts := strings.Split(input[2], " ")
 	divisor, _ := strconv.Atoi(testParts[len(testParts)-1])
 	m.test = func(dividend int) bool { return dividend%divisor == 0 }
+	m.testDivisor = divisor
 
 	trueTargetParts := strings.Split(input[3], " ")
 	trueTarget, _ := strconv.Atoi(trueTargetParts[len(trueTargetParts)-1])
@@ -72,7 +74,7 @@ func buildFuncFromParts(parts []string) func(old int) int {
 	}
 }
 
-func processRound(monkeys []Monkey) {
+func processRound(monkeys []Monkey, update func(old int) int) {
 	for i := 0; i < len(monkeys); i++ {
 		for len(monkeys[i].items) > 0 {
 			item := monkeys[i].items[0]
@@ -80,7 +82,7 @@ func processRound(monkeys []Monkey) {
 			monkeys[i].inspected++
 
 			item = monkeys[i].operation(item)
-			item /= 3
+			item = update(item)
 
 			target := monkeys[i].falseTarget
 			if monkeys[i].test(item) {
@@ -91,11 +93,19 @@ func processRound(monkeys []Monkey) {
 	}
 }
 
+func lcmOfPrimes(nums []int) int {
+	lcm := 1
+	for _, n := range nums {
+		lcm *= n
+	}
+	return lcm
+}
+
 func P1(input []string) int {
 	monkeys := buildMonkeys(input)
 
 	for i := 0; i < 20; i++ {
-		processRound(monkeys)
+		processRound(monkeys, func(item int) int { return item / 3 })
 	}
 
 	sort.Slice(monkeys, func(i, j int) bool {
@@ -106,5 +116,22 @@ func P1(input []string) int {
 }
 
 func P2(input []string) int {
-	return 0
+	monkeys := buildMonkeys(input)
+	divisors := make([]int, 0)
+
+	for _, monkey := range monkeys {
+		divisors = append(divisors, monkey.testDivisor)
+	}
+
+	lcm := lcmOfPrimes(divisors)
+
+	for i := 0; i < 10000; i++ {
+		processRound(monkeys, func(item int) int { return item % lcm })
+	}
+
+	sort.Slice(monkeys, func(i, j int) bool {
+		return monkeys[i].inspected > monkeys[j].inspected
+	})
+
+	return monkeys[0].inspected * monkeys[1].inspected
 }
